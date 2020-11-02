@@ -111,11 +111,15 @@ public abstract class CameraActivity extends AppCompatActivity
   private Button btnvibrate;
   public static Boolean isVibrate = false;
   public static Vibrator vibrator;
-  //mycode
+  //mycodebg
 
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
+//    if(isMyServiceRunning(ForegroundService.class) == true){
+//      stopService(new Intent(this,ForegroundService.class));
+//      isStart = false;
+//    }
     LOGGER.d("onCreate " + this);
     Log.d("hailo","onstart");
     super.onCreate(null);
@@ -150,15 +154,22 @@ public abstract class CameraActivity extends AppCompatActivity
         }
       }
     });
-    isMyServiceRunning(ForegroundService.class);
     if(isMyServiceRunning(ForegroundService.class) == true)
     {
-      isStart = true;
-      btnStartService.setText("STOP SERVICE");
-      btnStartService.setTextColor(Color.WHITE);
-      btnStartService.setBackgroundColor(Color.RED);
 
+      stopService(new Intent(this,ForegroundService.class));
+      isStart = false;
+
+      btnStartService.setText("START SERVICE");
+      btnStartService.setTextColor(btnStartService.getContext().getResources().getColor(R.color.design_default_color_primary_dark));
+      btnStartService.setBackgroundColor(btnStartService.getContext().getResources().getColor(R.color.tfe_color_primary));
+
+      //      isStart = true;
+//      btnStartService.setText("STOP SERVICE");
+//      btnStartService.setTextColor(Color.WHITE);
+//      btnStartService.setBackgroundColor(Color.RED);
       isMuted = ForegroundService.getMute();
+
       if(isMuted == false){
         btnMutted.setText("MUTE");
         btnMutted.setTextColor(btnMutted.getContext().getResources().getColor(R.color.design_default_color_primary_dark));
@@ -211,7 +222,7 @@ public abstract class CameraActivity extends AppCompatActivity
             } else {
               gestureLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
-            //                int width = bottomSheetLayout.getMeasuredWidth();
+            int width = bottomSheetLayout.getMeasuredWidth();
             int height = gestureLayout.getMeasuredHeight();
 
             sheetBehavior.setPeekHeight(height);
@@ -412,13 +423,13 @@ public abstract class CameraActivity extends AppCompatActivity
     if (rgbBytes == null) {
       rgbBytes = new int[previewWidth * previewHeight];
     }
+
     try {
       final Image image = reader.acquireLatestImage();
-
+      Log.d("cobasize","hasil asli nya : " + image.getWidth()+ "x" + image.getHeight());
       if (image == null) {
         return;
       }
-
       if (isProcessingFrame) {
         image.close();
         return;
@@ -430,6 +441,7 @@ public abstract class CameraActivity extends AppCompatActivity
       yRowStride = planes[0].getRowStride();
       final int uvRowStride = planes[1].getRowStride();
       final int uvPixelStride = planes[1].getPixelStride();
+
 
       imageConverter =
           new Runnable() {
@@ -447,7 +459,6 @@ public abstract class CameraActivity extends AppCompatActivity
                   rgbBytes);
             }
           };
-
       postInferenceCallback =
           new Runnable() {
             @Override
@@ -470,6 +481,7 @@ public abstract class CameraActivity extends AppCompatActivity
   public synchronized void onStart() {
     LOGGER.d("onStart " + this);
     Log.d("hailo","onStart");
+    Log.d("inipercobaan","onStart()");
     super.onStart();
   }
 
@@ -481,6 +493,8 @@ public abstract class CameraActivity extends AppCompatActivity
     handlerThread = new HandlerThread("inference");
     handlerThread.start();
     handler = new Handler(handlerThread.getLooper());
+    Log.d("inipercobaan","onResume()");
+
   }
 
   @Override
@@ -495,7 +509,7 @@ public abstract class CameraActivity extends AppCompatActivity
     } catch (final InterruptedException e) {
       LOGGER.e(e, "Exception!");
     }
-
+    Log.d("inipercobaan","onPause()");
     super.onPause();
   }
 
@@ -503,6 +517,11 @@ public abstract class CameraActivity extends AppCompatActivity
   public synchronized void onStop() {
     LOGGER.d("onStop " + this);
     Log.d("hailo","onStop");
+    Log.d("inipercobaan","onstop()");
+//    if(isServiceRun == true){
+//      stopService(new Intent(CameraActivity.this,ForegroundService.class));
+//      startService(new Intent(CameraActivity.this,ForegroundService.class));
+//    }
     super.onStop();
   }
 
@@ -510,11 +529,11 @@ public abstract class CameraActivity extends AppCompatActivity
   public synchronized void onDestroy() {
     LOGGER.d("onDestroy " + this);
     Log.d("hailo","onDestroy");
+    Log.d("inipercobaan","onDestroy()");
     super.onDestroy();
   }
 
   protected synchronized void runInBackground(final Runnable r) {
-//    Log.d("hailo","RunInBackground");
     if (handler != null) {
       handler.post(r);
     }
@@ -582,6 +601,7 @@ public abstract class CameraActivity extends AppCompatActivity
 
         // We don't use a front facing camera in this sample.
         final Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+        Log.d("facingservice","asli : " + facing);
         if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
           continue;
         }
@@ -622,6 +642,7 @@ public abstract class CameraActivity extends AppCompatActivity
                 public void onPreviewSizeChosen(final Size size, final int rotation) {
                   previewHeight = size.getHeight();
                   previewWidth = size.getWidth();
+                  Log.d("previewSizehaha","hasil asli : " +previewHeight + previewWidth);
                   CameraActivity.this.onPreviewSizeChosen(size, rotation);
                 }
               },
@@ -657,7 +678,6 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
   protected void readyForNextImage() {
-    Log.d("jangan dulu","ready for next");
     if (postInferenceCallback != null) {
       postInferenceCallback.run();
     }

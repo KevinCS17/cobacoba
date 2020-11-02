@@ -119,6 +119,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     previewHeight = size.getHeight();
 
     sensorOrientation = rotation - getScreenOrientation();
+
+
     LOGGER.i("Camera orientation relative to screen canvas: %d", sensorOrientation);
 
     LOGGER.i("Initializing at size %dx%d", previewWidth, previewHeight);
@@ -130,6 +132,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             previewWidth, previewHeight,
             cropSize, cropSize,
             sensorOrientation, MAINTAIN_ASPECT);
+
 
     cropToFrameTransform = new Matrix();
     frameToCropTransform.invert(cropToFrameTransform);
@@ -169,6 +172,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     final Canvas canvas = new Canvas(croppedBitmap);
     canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
+
+
     // For examining the actual TF input.
     if (SAVE_PREVIEW_BITMAP) {
       ImageUtils.saveBitmap(croppedBitmap);
@@ -184,6 +189,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
 
             cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
+
             final Canvas canvas = new Canvas(cropCopyBitmap);
             final Paint paint = new Paint();
             paint.setColor(Color.RED);
@@ -197,16 +203,17 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 break;
             }
 
+
             final List<Detector.Recognition> mappedRecognitions =
                 new ArrayList<Detector.Recognition>();
 
+
             for (final Detector.Recognition result : results) {
               final RectF location = result.getLocation();
+
               if (location != null && result.getConfidence() >= minimumConfidence) {
                 canvas.drawRect(location, paint);
-
                 cropToFrameTransform.mapRect(location);
-
                 result.setLocation(location);
                 mappedRecognitions.add(result);
               }
@@ -214,7 +221,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
             tracker.trackResults(mappedRecognitions, currTimestamp);
             trackingOverlay.postInvalidate();
-
             computingDetection = false;
 
             runOnUiThread(
