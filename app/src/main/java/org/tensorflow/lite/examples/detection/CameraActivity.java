@@ -34,6 +34,7 @@ import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Trace;
@@ -111,6 +112,7 @@ public abstract class CameraActivity extends AppCompatActivity
   private Button btnvibrate;
   public static Boolean isVibrate = false;
   public static Vibrator vibrator;
+  private Button shutdown;
   //mycodebg
 
 
@@ -154,10 +156,12 @@ public abstract class CameraActivity extends AppCompatActivity
         }
       }
     });
+
     if(isMyServiceRunning(ForegroundService.class) == true)
     {
-
+      Log.d("getmyservice","service - 1 " + isStart);
       stopService(new Intent(this,ForegroundService.class));
+      Log.d("getmyservice","service - 2 " + isStart);
       isStart = false;
 
       btnStartService.setText("START SERVICE");
@@ -270,6 +274,27 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
   //mycode
+  public void shutdownOnClick(View view){
+    Toast.makeText(this, "Application Shutdown", Toast.LENGTH_LONG).show();
+    shudtdown();
+  }
+  public void shudtdown(){
+    CameraActivity.this.moveTaskToBack(true);
+
+    new CountDownTimer(3000, 1000) {
+
+      public void onTick(long millisUntilFinished) {
+      }
+
+      public void onFinish() {
+        finish();
+        Log.d("jalankan","finish");
+        System.exit(0);
+        Log.d("jalankan","System 0");
+      }
+    }.start();
+  }
+
   public void mute(View view){
     if(isMuted == true){ //jika unmute di press
       isMuted = false;
@@ -308,14 +333,14 @@ public abstract class CameraActivity extends AppCompatActivity
   public static boolean getMyServiceRun(){return isServiceRun;}
   public void startService(View view){
     if(isStart == false){//jika start belum di tekan
-      isStart = true;
+//      isStart = true;
       //start start Foreground
-      btnStartService.setText("STOP SERVICE");
-      btnStartService.setTextColor(Color.WHITE);
-      btnStartService.setBackgroundColor(Color.RED);
+//      btnStartService.setText("STOP SERVICE");
+//      btnStartService.setTextColor(Color.WHITE);
+//      btnStartService.setBackgroundColor(Color.RED);
       startService(new Intent(this,ForegroundService.class));
-//      CameraActivity.this.moveTaskToBack(true);
-      finish();
+      CameraActivity.this.moveTaskToBack(true);
+//      finish();
     }
     else if(isStart == true){//service sedang jalan
       isStart = false;
@@ -323,6 +348,7 @@ public abstract class CameraActivity extends AppCompatActivity
       btnStartService.setText("START SERVICE");
       btnStartService.setTextColor(btnStartService.getContext().getResources().getColor(R.color.design_default_color_primary_dark));
       btnStartService.setBackgroundColor(btnStartService.getContext().getResources().getColor(R.color.tfe_color_primary));
+
       stopService(new Intent(view.getContext(),ForegroundService.class));
     }
   }
@@ -349,10 +375,10 @@ public abstract class CameraActivity extends AppCompatActivity
 
   private void vibrateNOW(int time)
   {
-
     long[] pattern = {10,10};
       vibrator.vibrate(pattern,-1);
   }
+
 // mycode
 
   protected int[] getRgbBytes() {
@@ -426,7 +452,7 @@ public abstract class CameraActivity extends AppCompatActivity
 
     try {
       final Image image = reader.acquireLatestImage();
-      Log.d("cobasize","hasil asli nya : " + image.getWidth()+ "x" + image.getHeight());
+//      Log.d("cobasize","hasil asli nya : " + image.getWidth()+ "x" + image.getHeight());
       if (image == null) {
         return;
       }
@@ -494,6 +520,31 @@ public abstract class CameraActivity extends AppCompatActivity
     handlerThread.start();
     handler = new Handler(handlerThread.getLooper());
     Log.d("inipercobaan","onResume()");
+    isMuted = ForegroundService.getMute();
+
+    if(isMuted == false){
+      btnMutted.setText("MUTE");
+      btnMutted.setTextColor(btnMutted.getContext().getResources().getColor(R.color.design_default_color_primary_dark));
+      btnMutted.setBackgroundColor(btnMutted.getContext().getResources().getColor(R.color.tfe_color_primary));
+    }
+    else if(isMuted == true){
+      btnMutted.setText("UNMUTE");
+      btnMutted.setTextColor(Color.WHITE);
+      btnMutted.setBackgroundColor(Color.RED);
+    }
+
+    isVibrate = ForegroundService.getVibrate();
+    if(isVibrate == false){
+      btnvibrate.setText("VIBRATE");
+      btnvibrate.setTextColor(btnvibrate.getContext().getResources().getColor(R.color.design_default_color_primary_dark));
+      btnvibrate.setBackgroundColor(btnvibrate.getContext().getResources().getColor(R.color.tfe_color_primary));
+    }
+    else if(isVibrate == true){
+      btnvibrate.setText("STOP VIBRATE");
+      btnvibrate.setTextColor(Color.WHITE);
+      btnvibrate.setBackgroundColor(Color.RED);
+    }
+    stopService(new Intent(this,ForegroundService.class));
 
   }
 

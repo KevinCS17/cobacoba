@@ -288,17 +288,17 @@ public class ForegroundService extends Service {
             }
 
             final Image image = reader.acquireLatestImage();
-            Log.d("akupastibisa","GOT IMAGE SERVICE : " + image.getWidth() + " x " + image.getHeight());
+//            Log.d("akupastibisa","GOT IMAGE SERVICE : " + image.getWidth() + " x " + image.getHeight());
             if(image == null)
             {
                 return;
             }
 
-//            if (isProcessingFrame) {
-//                image.close();
-//                return;
-//            }
-//            isProcessingFrame = true;
+            if (isProcessingFrame) {
+                image.close();
+                return;
+            }
+            isProcessingFrame = true;
             Trace.beginSection("imageAvailable");
             final Image.Plane[] planes = image.getPlanes();
             fillBytes(planes, yuvBytes);
@@ -582,10 +582,12 @@ public class ForegroundService extends Service {
     public void onCreate(){
         Toast.makeText(this, "Service Created", Toast.LENGTH_LONG).show();
         super.onCreate();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             startMyOwnForeground();
-        else
-            startForeground(1, new Notification());
+        }
+        else {
+            startForeground(2, new Notification());
+        }
         isMute = CameraActivity.getMuted();
         isVibrate = CameraActivity.getVibrate();
 
