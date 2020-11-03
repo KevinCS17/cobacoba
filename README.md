@@ -1,7 +1,8 @@
 # TensorFlow Lite Object Detection Android Demo + Foreground Service
 ### Overview
  
-This is customed Application from the [Tensorflow](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android)
+This is customed Application from the [Tensorflow Lite Android Object Detection Github Example](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android)
+
 Add Foreground Service + Voice Alert + Vibrate Button to the Application
 the description here is from [TensorFlow Lite Object Detection Android Demo](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android) for more detail.
 
