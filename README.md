@@ -1,11 +1,18 @@
-# TensorFlow Lite Object Detection Android Demo + Foreground Service
-### Overview
+# Android Custom TensorFlow Lite Object Detection Application + Foreground Service
+### My Description
  
 This is customed Application from the [Tensorflow Lite Android Object Detection Github Example](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android)
 
-Add Foreground Service + Voice Alert + Vibrate Button to the Application
-the description here is from [TensorFlow Lite Object Detection Android Demo](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android) for more detail.
+Using SSD_Mobilenet_V2 from [Tensorflow 2 Model Zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf2_detection_zoo.md) and converted to [Tensorflow Lite](https://www.tensorflow.org/lite) + [Google Open Image v6 Dataset](https://storage.googleapis.com/openimages/web/index.html).
 
+Add [Foreground Service](https://developer.android.com/guide/components/foreground-services) + Voice Alert using [Text to Speech](https://developer.android.com/reference/android/speech/tts/TextToSpeech) + [Vibrate](https://developer.android.com/reference/android/os/Vibrator) to the Application
+
+Application will detect Person, Car, Motorcycle, Bicycle, Stop Sign
+
+The description down here is from [TensorFlow Lite Object Detection Android Demo](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android) for more detail.
+
+# TensorFlow Lite Object Detection Android Demo
+### Overview
 This is a camera app that continuously detects the objects (bounding boxes and classes) in the frames seen by your device's back camera, using a quantized [MobileNet SSD](https://github.com/tensorflow/models/tree/master/research/object_detection) model trained on the [COCO dataset](http://cocodataset.org/). These instructions walk you through building and running the demo on an Android device.
 
 The model files are downloaded via Gradle scripts when you build and run. You don't need to do any steps to download TFLite models into the project explicitly.
