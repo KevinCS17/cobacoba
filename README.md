@@ -1,7 +1,8 @@
 # TensorFlow Lite Object Detection Android Demo + Foreground Service
 ### Overview
  
-this is customed Foreground Application from the [Tensorflow](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android)
+This is customed Application from the [Tensorflow](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android)
+Add Foreground Service + Voice Alert + Vibrate Button to the Application
 the description here is from [TensorFlow Lite Object Detection Android Demo](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android) for more detail.
 
 This is a camera app that continuously detects the objects (bounding boxes and classes) in the frames seen by your device's back camera, using a quantized [MobileNet SSD](https://github.com/tensorflow/models/tree/master/research/object_detection) model trained on the [COCO dataset](http://cocodataset.org/). These instructions walk you through building and running the demo on an Android device.
