@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".settingActivity"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/tfe_color_primary_dark">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setting"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:padding="10dp"
+            android:gravity="right"
+            android:textSize="36dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/checkPerson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Person"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layoutDirection="rtl"
+            android:checked="true"
+            android:buttonTint="@color/tfe_color_primary_dark"
+            android:onClick="onCheckPerson"/>
+        <CheckBox
+            android:id="@+id/checkCar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Car"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layoutDirection="rtl"
+            android:checked="true"
+            android:buttonTint="@color/tfe_color_primary_dark"
+            android:onClick="onCheckCar"/>
+
+        <CheckBox
+            android:id="@+id/checkBicycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bicycle"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layoutDirection="rtl"
+            android:checked="true"
+            android:buttonTint="@color/tfe_color_primary_dark"
+            android:onClick="onCheckBicycle"/>
+
+        <CheckBox
+            android:id="@+id/checkMotorcycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Motorcycle"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layoutDirection="rtl"
+            android:checked="true"
+            android:buttonTint="@color/tfe_color_primary_dark"
+            android:onClick="onCheckMotorcycle"/>
+
+        <CheckBox
+            android:id="@+id/checkStopSign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stop Sign"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layoutDirection="rtl"
+            android:checked="true"
+            android:buttonTint="@color/tfe_color_primary_dark"
+            android:onClick="onCheckStopSign"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="40dp"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Save"
+                android:textSize="18dp"
+                android:textColor="@android:color/black"
+                android:backgroundTint="@color/tfe_color_primary"
+                android:onClick="btnSaveOnClick"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
