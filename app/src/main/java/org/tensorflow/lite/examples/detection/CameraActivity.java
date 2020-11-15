@@ -113,6 +113,7 @@ public abstract class CameraActivity extends AppCompatActivity
   public static Boolean isVibrate = false;
   public static Vibrator vibrator;
   private Button shutdown;
+  private Button btnClass;
   //mycodebg
 
 
@@ -137,6 +138,7 @@ public abstract class CameraActivity extends AppCompatActivity
     btnStartService = findViewById(R.id.buttonStartService);
     btnvibrate = findViewById(R.id.buttonVibrate);
     vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+    btnClass = findViewById(R.id.btnClass);
 
     textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
       @Override
@@ -379,6 +381,12 @@ public abstract class CameraActivity extends AppCompatActivity
       vibrator.vibrate(pattern,-1);
   }
 
+  public void btnClassOnClick(View view){
+    Log.d("settingjalan","onCLick masuk");
+    Intent intent = new Intent(CameraActivity.this, settingActivity.class);
+    startActivity(intent);
+  }
+
 // mycode
 
   protected int[] getRgbBytes() {
@@ -441,7 +449,6 @@ public abstract class CameraActivity extends AppCompatActivity
   /** Callback for Camera2 API */
   @Override
   public   void onImageAvailable(final ImageReader reader) {
-    Log.d("hailo","onImageAvailable1");
     // We need wait until we have some size from onPreviewSizeChosen
     if (previewWidth == 0 || previewHeight == 0) {
       return;
@@ -452,7 +459,6 @@ public abstract class CameraActivity extends AppCompatActivity
 
     try {
       final Image image = reader.acquireLatestImage();
-//      Log.d("cobasize","hasil asli nya : " + image.getWidth()+ "x" + image.getHeight());
       if (image == null) {
         return;
       }
@@ -652,7 +658,6 @@ public abstract class CameraActivity extends AppCompatActivity
 
         // We don't use a front facing camera in this sample.
         final Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-        Log.d("facingservice","asli : " + facing);
         if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
           continue;
         }
@@ -691,6 +696,8 @@ public abstract class CameraActivity extends AppCompatActivity
               new CameraConnectionFragment.ConnectionCallback() {
                 @Override
                 public void onPreviewSizeChosen(final Size size, final int rotation) {
+                  Log.d("jalanduluan","OnpreviewSize");
+
                   previewHeight = size.getHeight();
                   previewWidth = size.getWidth();
                   Log.d("previewSizehaha","hasil asli : " +previewHeight + previewWidth);
@@ -703,6 +710,7 @@ public abstract class CameraActivity extends AppCompatActivity
 
       camera2Fragment.setCamera(cameraId);
       fragment = camera2Fragment;
+      Log.d("jalanduluan","fragment-1");
     } else {
       fragment =
           new LegacyCameraConnectionFragment(this, getLayoutId(), getDesiredPreviewFrameSize());

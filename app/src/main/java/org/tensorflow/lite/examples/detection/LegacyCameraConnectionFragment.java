@@ -23,6 +23,7 @@ import android.hardware.Camera.CameraInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -30,11 +31,13 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import java.io.IOException;
-import java.util.List;
+
 import org.tensorflow.lite.examples.detection.customview.AutoFitTextureView;
 import org.tensorflow.lite.examples.detection.env.ImageUtils;
 import org.tensorflow.lite.examples.detection.env.Logger;
+
+import java.io.IOException;
+import java.util.List;
 
 public class LegacyCameraConnectionFragment extends Fragment {
   private static final Logger LOGGER = new Logger();
@@ -67,6 +70,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
         public void onSurfaceTextureAvailable(
             final SurfaceTexture texture, final int width, final int height) {
           availableSurfaceTexture = texture;
+          Log.d("jalanduluan","legacy1");
           startCamera();
         }
 
@@ -149,6 +153,7 @@ public class LegacyCameraConnectionFragment extends Fragment {
   }
 
   private void startCamera() {
+    Log.d("jalanduluan","legacy2");
     int index = getCameraId();
     camera = Camera.open(index);
 

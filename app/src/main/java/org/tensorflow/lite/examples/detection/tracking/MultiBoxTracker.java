@@ -26,6 +26,7 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
 
@@ -33,6 +34,7 @@ import org.tensorflow.lite.examples.detection.CameraActivity;
 import org.tensorflow.lite.examples.detection.env.BorderedText;
 import org.tensorflow.lite.examples.detection.env.ImageUtils;
 import org.tensorflow.lite.examples.detection.env.Logger;
+import org.tensorflow.lite.examples.detection.settingActivity;
 import org.tensorflow.lite.examples.detection.tflite.Detector.Recognition;
 
 import java.util.LinkedList;
@@ -98,6 +100,8 @@ public class MultiBoxTracker {
   }
 
   public synchronized void drawDebug(final Canvas canvas) {
+    Log.d("cobacobajalankan","drawdebug");
+
     final Paint textPaint = new Paint();
     textPaint.setColor(Color.WHITE);
     textPaint.setTextSize(60.0f);
@@ -159,12 +163,49 @@ public class MultiBoxTracker {
   }
 
   private void processResults(final List<Recognition> results) {
+    Log.d("cobacobajalankan","processresult");
+
     final List<Pair<Float, Recognition>> rectsToTrack = new LinkedList<Pair<Float, Recognition>>();
 
     screenRects.clear();
     final Matrix rgbFrameToScreen = new Matrix(getFrameToCanvasMatrix());
 
     for (final Recognition result : results) {
+      if(result.getTitle().equals("person")){
+        if(!settingActivity.detectPerson)
+        {
+          continue;
+        }
+      }
+      if(result.getTitle().equals("car")){
+        Log.d("resultcoba","car - 1");
+        if(!settingActivity.detectCar)
+        {
+          Log.d("resultcoba","car - 2");
+          continue;
+        }
+      }
+
+      if(result.getTitle().equals("bicycle")){
+        if(!settingActivity.detectBicycle)
+        {
+          continue;
+        }
+      }
+      if(result.getTitle().equals("motorcycle")){
+        if(!settingActivity.detectMotorCycle)
+        {
+          continue;
+        }
+      }
+
+      if(result.getTitle().equals("stop sign")){
+        if(!settingActivity.detectStopSign)
+        {
+          continue;
+        }
+      }
+
       if (result.getLocation() == null) {
         continue;
       }
@@ -217,12 +258,12 @@ public class MultiBoxTracker {
   }
 //mycode
   private void speakOut(String word) {
-    if(CameraActivity.textToSpeech.isSpeaking() == false)
+    if(!CameraActivity.textToSpeech.isSpeaking())
       CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
     private void vibratorNow(int time){
-      CameraActivity.vibrator.vibrate(time);
+    CameraActivity.vibrator.vibrate(time);
     }
   //mycode
   private static class TrackedRecognition {

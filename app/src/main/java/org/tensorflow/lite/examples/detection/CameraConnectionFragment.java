@@ -107,13 +107,13 @@ public class CameraConnectionFragment extends Fragment {
         public void onCaptureProgressed(
             final CameraCaptureSession session,
             final CaptureRequest request,
-            final CaptureResult partialResult) {}
+            final CaptureResult partialResult) {Log.d("jalanduluan","oncapture Progress");}
 
         @Override
         public void onCaptureCompleted(
             final CameraCaptureSession session,
             final CaptureRequest request,
-            final TotalCaptureResult result) {}
+            final TotalCaptureResult result) {Log.d("jalanduluan","oncapture Complete");}
       };
   /** ID of the current {@link CameraDevice}. */
   private String cameraId;
@@ -142,6 +142,7 @@ public class CameraConnectionFragment extends Fragment {
       new CameraDevice.StateCallback() {
         @Override
         public void onOpened(final CameraDevice cd) {
+          Log.d("jalanduluan","statecallback on Opened");
           // This method is called when the camera is opened.  We start camera preview here.
           cameraOpenCloseLock.release();
           cameraDevice = cd;
@@ -175,6 +176,8 @@ public class CameraConnectionFragment extends Fragment {
         @Override
         public void onSurfaceTextureAvailable(
             final SurfaceTexture texture, final int width, final int height) {
+          Log.d("jalanduluan","TextureAvailable");
+
           openCamera(width, height);
         }
 
@@ -235,19 +238,11 @@ public class CameraConnectionFragment extends Fragment {
       }
     }
 
-    Log.d("aslipreview", "Desired size: " + desiredSize + ", min size: " + minSize + "x" + minSize);
     LOGGER.i("Desired size: " + desiredSize + ", min size: " + minSize + "x" + minSize);
-
-    Log.d("aslipreview", "Valid preview sizes: [" + TextUtils.join(", ", bigEnough) + "]");
-    Log.d("checkreturneror","Valid preview sizes: [" + TextUtils.join(", ", bigEnough) + "]" );
-
     LOGGER.i("Valid preview sizes: [" + TextUtils.join(", ", bigEnough) + "]");
-
-    Log.d("aslipreview", "Rejected preview sizes: [" + TextUtils.join(", ", tooSmall) + "]");
     LOGGER.i("Rejected preview sizes: [" + TextUtils.join(", ", tooSmall) + "]");
 
     if (exactSizeFound) {
-      Log.d("aslipreview", "Exact size match found." );
       LOGGER.i("Exact size match found.");
       return desiredSize;
     }
@@ -255,12 +250,9 @@ public class CameraConnectionFragment extends Fragment {
     // Pick the smallest of those, assuming we found any
     if (bigEnough.size() > 0) {
       final Size chosenSize = Collections.min(bigEnough, new CompareSizesByArea());
-      Log.d("aslipreview", "Chosen size: " + chosenSize.getWidth() + "x" + chosenSize.getHeight());
       LOGGER.i("Chosen size: " + chosenSize.getWidth() + "x" + chosenSize.getHeight());
       return chosenSize;
     } else {
-      Log.d("aslipreview", "couldnt find");
-
       LOGGER.e("Couldn't find any suitable preview size");
       return choices[0];
     }
@@ -355,13 +347,11 @@ public class CameraConnectionFragment extends Fragment {
       // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
       // garbage capture data.
       myInputSizeWidth = inputSize;
-      Log.d("checkreturneror","asli : " + inputSize.getWidth() + inputSize.getHeight());
       previewSize =
           chooseOptimalSize(
               map.getOutputSizes(SurfaceTexture.class),
               inputSize.getWidth(),
-              inputSize.getHeight());
-      Log.d("previewSizehaha","preview size asli kedua= " + previewSize );
+              inputSize.getHeight());;
       // We fit the aspect ratio of TextureView to the size of preview we picked.
       final int orientation = getResources().getConfiguration().orientation;
 
@@ -389,8 +379,11 @@ public class CameraConnectionFragment extends Fragment {
 
   /** Opens the camera specified by {@link CameraConnectionFragment#cameraId}. */
   private void openCamera(final int width, final int height) {
+    Log.d("jalanduluan","OpenCamera");
     setUpCameraOutputs();
+    Log.d("jalanduluan","SetUPCAmeraOUTPUT");
     configureTransform(width, height);
+    Log.d("jalanduluan","ConfigureTransform");
     final Activity activity = getActivity();
     final CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
     try {
@@ -454,6 +447,7 @@ public class CameraConnectionFragment extends Fragment {
 
   /** Creates a new {@link CameraCaptureSession} for camera preview. */
   private void createCameraPreviewSession() {
+    Log.d("jalanduluan","createpreviewseason");
     myTextureview = textureView;
     Log.d("halo1","ini asli" + textureView);
     try {
@@ -488,6 +482,8 @@ public class CameraConnectionFragment extends Fragment {
 
             @Override
             public void onConfigured(final CameraCaptureSession cameraCaptureSession) {
+              Log.d("jalanduluan","oncofigured");
+
               // The camera is already closed
               if (null == cameraDevice) {
                 return;

@@ -27,6 +27,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
 import android.widget.Toast;
@@ -86,6 +87,8 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   @Override
   public void onPreviewSizeChosen(final Size size, final int rotation) {
+    Log.d("detectorjalan","detector preview");
+
     final float textSizePx =
         TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE_DIP, getResources().getDisplayMetrics());
@@ -125,7 +128,9 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
     LOGGER.i("Initializing at size %dx%d", previewWidth, previewHeight);
     rgbFrameBitmap = Bitmap.createBitmap(previewWidth, previewHeight, Config.ARGB_8888);
+
     croppedBitmap = Bitmap.createBitmap(cropSize, cropSize, Config.ARGB_8888);
+
 
     frameToCropTransform =
         ImageUtils.getTransformationMatrix(
@@ -148,7 +153,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             }
           }
         });
-
     tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
   }
 
@@ -167,12 +171,10 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
     LOGGER.i("Preparing image " + currTimestamp + " for detection in bg thread.");
 
     rgbFrameBitmap.setPixels(getRgbBytes(), 0, previewWidth, 0, 0, previewWidth, previewHeight);
-
     readyForNextImage();
 
     final Canvas canvas = new Canvas(croppedBitmap);
     canvas.drawBitmap(rgbFrameBitmap, frameToCropTransform, null);
-
 
     // For examining the actual TF input.
     if (SAVE_PREVIEW_BITMAP) {
