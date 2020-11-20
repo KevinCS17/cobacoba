@@ -227,7 +227,7 @@ public class MultiBoxTracker {
         CameraActivity.textToSpeech.stop();
       }
       if(CameraActivity.getMuted() == false){
-        speakOut(result.getTitle());
+        speakOut(result.getTitle(),result.getConfidence());
       }
 
       if(CameraActivity.getVibrate() == true){
@@ -257,12 +257,22 @@ public class MultiBoxTracker {
     }
   }
 //mycode
-  private void speakOut(String word) {
+
+  private void speakOut(String word, float score) {
+    int amStreamMusicMaxVol = CameraActivity.am.getStreamMaxVolume(CameraActivity.am.STREAM_MUSIC);
+
+    if(settingActivity.volumeCheckbox == true){
+      score = score * 10;
+      int ScoreTotal = (int)score + settingActivity.volumeLevel;
+      Log.d("ediedit","score : " + ScoreTotal);
+      CameraActivity.am.setStreamVolume(CameraActivity.am.STREAM_MUSIC,ScoreTotal,0);
+    }
     if(!CameraActivity.textToSpeech.isSpeaking())
       CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
     }
 
-    private void vibratorNow(int time){
+
+  private void vibratorNow(int time){
     CameraActivity.vibrator.vibrate(time);
     }
   //mycode

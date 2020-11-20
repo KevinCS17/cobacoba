@@ -88,11 +88,166 @@
             android:checked="true"
             android:buttonTint="@color/tfe_color_primary_dark"
             android:onClick="onCheckStopSign"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="40dp"
+            android:orientation="horizontal"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum Score"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:textColor="@android:color/black"/>
+            <EditText
+                android:id="@+id/editScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingEnd="0dp"
+                android:gravity="right"
+                android:text="50%"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:background="@android:color/transparent"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <SeekBar
+                android:id="@+id/seekScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:progress="50" />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Voice Alert Control by Score"/>
+            <CheckBox
+                android:id="@+id/LouderCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volume Booster"
+                android:textSize="20dp"
+                android:padding="10dp"
+                android:layoutDirection="rtl"
+                android:checked="false"
+                android:buttonTint="@color/tfe_color_primary_dark"
+                android:onClick="onVolumeLoud"/>
+
+            <RelativeLayout
+                android:id="@+id/LevelLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Level"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/rectangle"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/minus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_baseline_remove"
+                        android:src="@drawable/ic_baseline_remove"
+                        android:onClick="minusOnClick"/>
+
+                    <TextView
+                        android:id="@+id/textLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="0"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_baseline_add"
+                        android:onClick="plusOnClick"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/WarningView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="Warning Level 5 will reach your phone Maximum Volume "
+                android:paddingBottom="10dp"/>
+
+
+            <CheckBox
+                android:id="@+id/TimerCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Class Timer"
+                android:textSize="20dp"
+                android:padding="10dp"
+                android:layoutDirection="rtl"
+                android:checked="true"
+                android:buttonTint="@color/tfe_color_primary_dark"
+                android:onClick="onClassTimer"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/darker_gray" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
             android:orientation="vertical">
             <Button
                 android:id="@+id/btnSave"

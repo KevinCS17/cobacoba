@@ -261,7 +261,8 @@ public class ForegroundService extends Service {
     private Runnable postInferenceCallback;
     private Detector detector;
     private static final boolean TF_OD_API_IS_QUANTIZED = false;
-    private static final String TF_OD_API_MODEL_FILE = "detect.tflite";
+//    private static final String TF_OD_API_MODEL_FILE = "detect.tflite";
+    private static final String TF_OD_API_MODEL_FILE = "myModel_V3.tflite";
     private static final String TF_OD_API_LABELS_FILE = "labelmap.txt";
     private static final boolean MAINTAIN_ASPECT = false;
 
@@ -349,7 +350,7 @@ public class ForegroundService extends Service {
     private static final boolean SAVE_PREVIEW_BITMAP = false;
     private long lastProcessingTimeMs;
     private Bitmap cropCopyBitmap = null;
-    private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
+    public static final float MINIMUM_CONFIDENCE_TF_OD_API = DetectorActivity.MINIMUM_CONFIDENCE_TF_OD_API;
     private static final DetectorMode MODE = DetectorMode.TF_OD_API;
     private Matrix cropToFrameTransform;
     private MultiBoxTracker tracker;
@@ -394,13 +395,12 @@ public class ForegroundService extends Service {
                         paint.setStyle(Paint.Style.STROKE);
                         paint.setStrokeWidth(2.0f);
 
-                        float minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
+                        float minimumConfidence = DetectorActivity.MINIMUM_CONFIDENCE_TF_OD_API;
                         switch (MODE) {
                             case TF_OD_API:
-                                minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
+                                minimumConfidence = DetectorActivity.MINIMUM_CONFIDENCE_TF_OD_API;
                                 break;
                         }
-
                         final List<Detector.Recognition> mappedRecognitions =
                                 new ArrayList<Detector.Recognition>();
 

@@ -16,11 +16,6 @@
 
 package org.tensorflow.lite.examples.detection;
 
-import static com.google.common.truth.Truth.assertThat;
-import static java.lang.Math.abs;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -29,13 +24,10 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.util.Size;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,13 +36,26 @@ import org.tensorflow.lite.examples.detection.tflite.Detector;
 import org.tensorflow.lite.examples.detection.tflite.Detector.Recognition;
 import org.tensorflow.lite.examples.detection.tflite.TFLiteObjectDetectionAPIModel;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
 /** Golden test for Object Detection Reference app. */
 @RunWith(AndroidJUnit4.class)
 public class DetectorTest {
 
   private static final int MODEL_INPUT_SIZE = 300;
   private static final boolean IS_MODEL_QUANTIZED = false;
-  private static final String MODEL_FILE = "detect.tflite";
+//  private static final String MODEL_FILE = "detect.tflite";
+  private static final String MODEL_FILE = "myModel_V3.tflite";
+
   private static final String LABELS_FILE = "labelmap.txt";
   private static final Size IMAGE_SIZE = new Size(640, 480);
 

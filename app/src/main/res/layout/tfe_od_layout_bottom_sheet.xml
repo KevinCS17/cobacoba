@@ -9,7 +9,7 @@
     android:background="@drawable/bottom_sheet_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="10dp"
     app:behavior_hideable="true"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -31,15 +31,23 @@
     </LinearLayout>
 
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:padding="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/black" />
+
+
 
     `<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="30dp"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/frame"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Frame"
@@ -47,13 +55,33 @@
 
     <TextView
         android:id="@+id/frame_info"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="right"
         android:text="640*480"
         android:textColor="@android:color/black" />
+    <Button
+        android:id="@+id/buttonStartService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textSize="10dp"
+        android:gravity="center"
+        android:background="@color/tfe_color_primary"
+        android:textStyle="bold"
+        android:text="START SERVICE"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:onClick="startService"/>
 </LinearLayout>`
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:background="@android:color/black" />
 
 
     <LinearLayout
@@ -79,11 +107,17 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/black" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -95,6 +129,17 @@
             android:text="Crop"
             android:textColor="@android:color/black"
             tools:ignore="Suspicious0dp" />
+        <Button
+            android:id="@+id/btnClass"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:textSize="10dp"
+            android:gravity="center"
+            android:background="@color/tfe_color_primary"
+            android:textStyle="bold"
+            android:text="Setting"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:onClick="btnClassOnClick"/>
 
         <Button
             android:id="@+id/buttonMute"
@@ -104,6 +149,7 @@
             android:background="@color/tfe_color_primary"
             android:textStyle="bold"
             android:text="MUTE"
+            android:layout_marginLeft="10dp"
             android:textColor="@color/design_default_color_primary_dark"
             android:onClick="mute"/>
 
@@ -114,18 +160,7 @@
             android:gravity="right"
             android:text="640*480"
             android:textColor="@android:color/black" />
-        <Button
-        android:id="@+id/buttonStartService"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-        android:textSize="10dp"
-        android:gravity="center"
-        android:background="@color/tfe_color_primary"
-        android:textStyle="bold"
-        android:text="START SERVICE"
-        android:textColor="@color/design_default_color_primary_dark"
-        android:onClick="startService"/>
+
 
         <TextView
             android:id="@+id/pembatas"
@@ -157,9 +192,10 @@
             android:gravity="center"
             android:background="@android:color/holo_red_dark"
             android:textStyle="bold"
-            android:text="SHUTDOWN"
+            android:text="power off"
             android:textColor="@android:color/white"
             android:onClick="shutdownOnClick"/>
+
 
 
     </LinearLayout>
@@ -171,30 +207,74 @@
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/btnClass"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:textSize="10dp"
-            android:gravity="center"
-            android:background="@color/tfe_color_primary"
-            android:textStyle="bold"
-            android:text="Class"
-            android:textColor="@color/design_default_color_primary_dark"
-            android:onClick="btnClassOnClick"/>
+
+
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/darker_gray" />
+        android:padding="5dp"
+        android:background="@android:color/black" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+
+<!--        <Button-->
+<!--            android:id="@+id/btnClass"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:textSize="10dp"-->
+<!--            android:gravity="center"-->
+<!--            android:background="@color/tfe_color_primary"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="Setting"-->
+<!--            android:textColor="@color/design_default_color_primary_dark"-->
+<!--            android:onClick="btnClassOnClick"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/buttonStartService"-->
+<!--            android:layout_width="140dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:textSize="10dp"-->
+<!--            android:gravity="center"-->
+<!--            android:background="@color/tfe_color_primary"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="START SERVICE"-->
+<!--            android:textColor="@color/design_default_color_primary_dark"-->
+<!--            android:onClick="startService"/>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+<!--            <Button-->
+<!--                android:id="@+id/btnshutdown"-->
+<!--                android:layout_width="70dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:textSize="10dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:gravity="center"-->
+<!--                android:background="@android:color/holo_red_dark"-->
+<!--                android:textStyle="bold"-->
+<!--                android:text="power off"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:onClick="shutdownOnClick"/>-->
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
         android:orientation="horizontal">
 
         <TextView
@@ -208,7 +288,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/rectangle"
+            android:background="@android:color/black"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="4dp">
@@ -236,6 +316,12 @@
                 android:src="@drawable/ic_baseline_add" />
         </LinearLayout>
     </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:padding="5dp"
+            android:background="@android:color/black" />
+
 
     <View
         android:layout_width="match_parent"
@@ -268,4 +354,11 @@
             android:text="TFLITE"
             android:textColor="@android:color/black" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/black" />
+</LinearLayout>
 </LinearLayout>

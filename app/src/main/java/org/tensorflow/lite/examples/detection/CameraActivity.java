@@ -28,6 +28,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.AudioManager;
 import android.media.Image;
 import android.media.Image.Plane;
 import android.media.ImageReader;
@@ -114,6 +115,7 @@ public abstract class CameraActivity extends AppCompatActivity
   public static Vibrator vibrator;
   private Button shutdown;
   private Button btnClass;
+  public static AudioManager am;
   //mycodebg
 
 
@@ -139,6 +141,7 @@ public abstract class CameraActivity extends AppCompatActivity
     btnvibrate = findViewById(R.id.buttonVibrate);
     vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
     btnClass = findViewById(R.id.btnClass);
+    am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
     textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
       @Override
@@ -165,7 +168,6 @@ public abstract class CameraActivity extends AppCompatActivity
       stopService(new Intent(this,ForegroundService.class));
       Log.d("getmyservice","service - 2 " + isStart);
       isStart = false;
-
       btnStartService.setText("START SERVICE");
       btnStartService.setTextColor(btnStartService.getContext().getResources().getColor(R.color.design_default_color_primary_dark));
       btnStartService.setBackgroundColor(btnStartService.getContext().getResources().getColor(R.color.tfe_color_primary));
