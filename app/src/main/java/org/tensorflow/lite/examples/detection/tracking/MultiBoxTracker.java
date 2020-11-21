@@ -217,7 +217,6 @@ public class MultiBoxTracker {
           "Result! Frame: " + result.getLocation() + " mapped to screen:" + detectionScreenRect);
 
       screenRects.add(new Pair<Float, RectF>(result.getConfidence(), detectionScreenRect));
-
       if (detectionFrameRect.width() < MIN_SIZE || detectionFrameRect.height() < MIN_SIZE) {
         logger.w("Degenerate rectangle! " + detectionFrameRect);
         continue;
@@ -241,6 +240,11 @@ public class MultiBoxTracker {
     trackedObjects.clear();
     if (rectsToTrack.isEmpty()) {
       logger.v("Nothing to track, aborting.");
+      timerPerson = timerPerson - timerClass;
+      timerCar = timerCar - timerClass;
+      timerBicycle = timerBicycle - timerClass;
+      timerMotorcycle = timerMotorcycle - timerClass;
+      timerStopSign = timerStopSign - timerClass;
       return;
     }
     for (final Pair<Float, Recognition> potential : rectsToTrack) {
@@ -257,19 +261,90 @@ public class MultiBoxTracker {
     }
   }
 //mycode
-
+  public static void setTimer(long timer){
+    timerClass = (int) timer;
+  }
+  public static int timerClass;
+  private int timerPerson = 0;
+  private int timerCar = 0;
+  private int timerBicycle = 0;
+  private int timerMotorcycle = 0;
+  private int timerStopSign = 0;
   private void speakOut(String word, float score) {
     int amStreamMusicMaxVol = CameraActivity.am.getStreamMaxVolume(CameraActivity.am.STREAM_MUSIC);
 
-    if(settingActivity.volumeCheckbox == true){
-      score = score * 10;
-      int ScoreTotal = (int)score + settingActivity.volumeLevel;
-      Log.d("ediedit","score : " + ScoreTotal);
-      CameraActivity.am.setStreamVolume(CameraActivity.am.STREAM_MUSIC,ScoreTotal,0);
+    if (settingActivity.volumeCheckbox) {
+      float volume = score * 10;
+      int ScoreTotal = (int) volume + settingActivity.volumeLevel;
+      Log.d("ediedit", "score : " + ScoreTotal);
+      CameraActivity.am.setStreamVolume(CameraActivity.am.STREAM_MUSIC, ScoreTotal, 0);
     }
-    if(!CameraActivity.textToSpeech.isSpeaking())
-      CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
+
+    if(settingActivity.timerWork){
+      score = score * 100;
+      timerPerson = timerPerson - timerClass;
+      timerCar = timerCar - timerClass;
+      timerBicycle = timerBicycle - timerClass;
+      timerMotorcycle = timerMotorcycle - timerClass;
+      timerStopSign = timerStopSign - timerClass;
+
+      if(word.equals("person")) {
+        if (timerPerson <= 0) {
+          CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_ADD, null, null);
+          timerPerson = 4000;
+        }
+        else{
+          timerPerson = timerPerson - (int)score;
+        }
+      }
+
+      if(word.equals("car")) {
+        if (timerCar <= 0) {
+          CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_ADD, null, null);
+          timerCar = 4000;
+        }
+        else{
+          timerCar = timerCar - (int)score;
+        }
+      }
+
+      if(word.equals("bicycle")) {
+        if (timerBicycle <= 0) {
+          CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_ADD, null, null);
+          timerBicycle = 4000;
+        }
+        else{
+          timerBicycle = timerBicycle - (int)score;
+        }
+      }
+
+      if(word.equals("motorcycle")) {
+        if (timerMotorcycle <= 0) {
+          CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_ADD, null, null);
+          timerMotorcycle = 4000;
+        }
+        else{
+          timerMotorcycle = timerMotorcycle - (int)score;
+        }
+      }
+
+      if(word.equals("stop sign")) {
+        if (timerStopSign <= 0) {
+          CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_ADD, null, null);
+          timerStopSign = 4000;
+        }
+        else{
+          timerStopSign = timerStopSign - (int)score;
+        }
+      }
     }
+
+    if(!settingActivity.timerWork) {
+      if (!CameraActivity.textToSpeech.isSpeaking()) {
+        CameraActivity.textToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
+      }
+    }
+  }
 
 
   private void vibratorNow(int time){

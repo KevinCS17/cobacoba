@@ -21,11 +21,13 @@ public class settingActivity extends AppCompatActivity {
     public static boolean detectBicycle = true;
     public static boolean detectMotorCycle = true;
     public static boolean detectStopSign = true;
+
     public static boolean volumeCheckbox = false;
     public static int volumeLevel= 0;
-
     public static float confScore = 0.5f;
     private int ScoreNow = 50;
+
+    public static boolean timerWork = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +49,10 @@ public class settingActivity extends AppCompatActivity {
 
         CheckBox LouderCheckbox = findViewById(R.id.LouderCheckbox);
         CheckBox TimerCheckbox = findViewById(R.id.TimerCheckbox);
+
         View warningView = findViewById(R.id.WarningView);
         RelativeLayout relativeLayout = findViewById(R.id.LevelLinear);
+
         if(LouderCheckbox.isChecked()){
             warningView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             relativeLayout.setVisibility(View.VISIBLE);
@@ -73,6 +77,13 @@ public class settingActivity extends AppCompatActivity {
             String setText = Integer.toString(volumeLevel);
             textLevel.setText(setText);
         }
+
+        if(timerWork== true) {
+            TimerCheckbox.setChecked(true);
+        }else{
+            TimerCheckbox.setChecked(false);
+        }
+
         seekScore.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -137,9 +148,17 @@ public class settingActivity extends AppCompatActivity {
                     }
                 }
         );
-
-
     }
+
+    public void onClassTimer(View view){
+        boolean checked = ((CheckBox) view).isChecked();
+        if(checked){
+            timerWork = true;
+        } else {
+            timerWork = false;
+        }
+    }
+
     public void changeConfScore(int score){
         float floatScore = (float)score;
         floatScore = floatScore/100;
@@ -200,9 +219,6 @@ public class settingActivity extends AppCompatActivity {
         }
     }
 
-    public void onClassTimer(View view){
-
-    }
 
     public void onCheckPerson(View view) {
         boolean checked = ((CheckBox) view).isChecked();

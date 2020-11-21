@@ -158,6 +158,7 @@ private static final String TF_OD_API_MODEL_FILE = "myModel_V3.tflite";
     tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
   }
 
+
   @Override
   protected void processImage() {
     ++timestamp;
@@ -191,6 +192,8 @@ private static final String TF_OD_API_MODEL_FILE = "myModel_V3.tflite";
             final long startTime = SystemClock.uptimeMillis();
             final List<Detector.Recognition> results = detector.recognizeImage(croppedBitmap);
             lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
+
+            MultiBoxTracker.setTimer(lastProcessingTimeMs);
 
             cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
 

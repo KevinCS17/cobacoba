@@ -387,6 +387,8 @@ public class ForegroundService extends Service {
                         final List<Detector.Recognition> results = detector.recognizeImage(croppedBitmap);
                         lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
 
+                        MultiBoxTracker.setTimer(lastProcessingTimeMs);
+
                         cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
 
                         final Canvas canvas = new Canvas(cropCopyBitmap);
