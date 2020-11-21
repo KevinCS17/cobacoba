@@ -9,7 +9,9 @@ Add [Foreground Service](https://developer.android.com/guide/components/foregrou
 
 Application will detect Person, Car, Motorcycle, Bicycle, Stop Sign
 
-Add some Volume Booster by the Score of the Object using [Audio Manager](https://developer.android.com/reference/android/media/AudioManager)
+Add Volume Booster by the Score Option of the Object using [Audio Manager](https://developer.android.com/reference/android/media/AudioManager)
+
+Add Timer by Class 4 Second Option in Setting
 
 The description down here is from [TensorFlow Lite Object Detection Android Demo](https://github.com/tensorflow/examples/tree/master/lite/examples/object_detection/android) for more detail.
 
