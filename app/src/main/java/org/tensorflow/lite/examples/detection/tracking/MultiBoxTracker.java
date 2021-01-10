@@ -163,8 +163,6 @@ public class MultiBoxTracker {
   }
 
   private void processResults(final List<Recognition> results) {
-    Log.d("cobacobajalankan","processresult");
-
     final List<Pair<Float, Recognition>> rectsToTrack = new LinkedList<Pair<Float, Recognition>>();
 
     screenRects.clear();
@@ -178,10 +176,8 @@ public class MultiBoxTracker {
         }
       }
       if(result.getTitle().equals("car")){
-        Log.d("resultcoba","car - 1");
         if(!settingActivity.detectCar)
         {
-          Log.d("resultcoba","car - 2");
           continue;
         }
       }
@@ -264,6 +260,7 @@ public class MultiBoxTracker {
   public static void setTimer(long timer){
     timerClass = (int) timer;
   }
+
   public static int timerClass;
   private int timerPerson = 0;
   private int timerCar = 0;

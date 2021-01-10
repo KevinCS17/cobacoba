@@ -95,7 +95,11 @@ public class LegacyCameraConnectionFragment extends Fragment {
     this.layout = layout;
     this.desiredSize = desiredSize;
   }
+  public static Camera.PreviewCallback myCameraImageListener;
 
+  public static Camera.PreviewCallback getImageListener(){
+    return myCameraImageListener;
+  }
   @Override
   public View onCreateView(
       final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -152,9 +156,11 @@ public class LegacyCameraConnectionFragment extends Fragment {
     }
   }
 
+
   private void startCamera() {
     Log.d("jalanduluan","legacy2");
     int index = getCameraId();
+    cameraID = index;
     camera = Camera.open(index);
 
     try {
@@ -170,6 +176,8 @@ public class LegacyCameraConnectionFragment extends Fragment {
       for (Camera.Size size : cameraSizes) {
         sizes[i++] = new Size(size.width, size.height);
       }
+      DesiredHeight = desiredSize.getHeight();
+      DesiredWidth = desiredSize.getWidth();
       Size previewSize =
               CameraConnectionFragment.chooseOptimalSize(
                       sizes, desiredSize.getWidth(), desiredSize.getHeight());
@@ -180,14 +188,32 @@ public class LegacyCameraConnectionFragment extends Fragment {
     } catch (IOException exception) {
       camera.release();
     }
-
+    Log.d("percobaanlagi","Legacy : " + imageListener);
     camera.setPreviewCallbackWithBuffer(imageListener);
     Camera.Size s = camera.getParameters().getPreviewSize();
     camera.addCallbackBuffer(new byte[ImageUtils.getYUVByteSize(s.height, s.width)]);
-
     textureView.setAspectRatio(s.height, s.width);
-
+    myLegacyTextureView = textureView;
+    Log.d("cobacamera2","s.height : " + s.height);
+    Log.d("cobacamera2","s.width : " + s.width);
     camera.startPreview();
+    Log.d("jalancoy","ASli camera = " + textureView);
+  }
+  public static int cameraID;
+  public static int DesiredWidth;
+  public static int DesiredHeight;
+  public static AutoFitTextureView myLegacyTextureView;
+  public static int getcamertaID(){
+    return cameraID;
+  }
+  public static int getDesiredWidth(){
+    return DesiredWidth;
+  }
+  public static int getDesiredHeight(){
+    return DesiredHeight;
+  }
+  public static AutoFitTextureView getMyLegacyTextureView(){
+    return myLegacyTextureView;
   }
 
   protected void stopCamera() {

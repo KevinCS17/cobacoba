@@ -407,6 +407,7 @@ public abstract class CameraActivity extends AppCompatActivity
   /** Callback for android.hardware.Camera API */
   @Override
   public void onPreviewFrame(final byte[] bytes, final Camera camera) {
+    Log.d("previewframe","ASLI jalan 3");
     if (isProcessingFrame) {
       LOGGER.w("Dropping frame!");
       return;
@@ -675,11 +676,13 @@ public abstract class CameraActivity extends AppCompatActivity
         // This should help with legacy situations where using the camera2 API causes
         // distorted or otherwise broken previews.
         useCamera2API =
-            (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
-                || isHardwareLevelSupported(
-                    characteristics, CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL);
-        LOGGER.i("Camera API lv2?: %s", useCamera2API);
-        return cameraId;
+                  (facing == CameraCharacteristics.LENS_FACING_EXTERNAL)
+                          || isHardwareLevelSupported(
+                          characteristics, CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_FULL);
+
+          LOGGER.i("Camera API lv2?: %s", useCamera2API);
+          return cameraId;
+
       }
     } catch (CameraAccessException e) {
       LOGGER.e(e, "Not allowed to access camera");

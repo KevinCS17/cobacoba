@@ -61,7 +61,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class ForegroundService extends Service {
+public class ForegroundService extends Service implements Camera.PreviewCallback {
 
     private CameraDevice cameraDevice = null;
     private ImageReader imageReader = null;
@@ -81,12 +81,20 @@ public class ForegroundService extends Service {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             final Size ActivityCamera = CameraConnectionFragment.getInputSize();
+            availableSurfaceTexture = surface;
+            if(ActivityCamera == null)
+            {
+                startinitcamera();
+
+            }
+            else {
             initcam(ActivityCamera.getWidth(),ActivityCamera.getHeight());
+            }
         }
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-
+            Log.d("previewframe","jalan coy 2");
         }
 
         @Override
@@ -96,9 +104,10 @@ public class ForegroundService extends Service {
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-
+            Log.d("previewframe","jalan coy 1");
         }
     };
+    private byte[] bytes;
 
     protected int getScreenOrientation() {
         WindowManager window = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -198,56 +207,6 @@ public class ForegroundService extends Service {
     }
 
     private android.util.Size chooseSupportedSize(String camId, int textureViewWidth, int textureViewHeight){
-//        final Size myInputSize = CameraConnectionFragment.getInputSize();
-//        Log.d("haram","coba : "+ myInputSize);
-//        final CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-//        try {
-//            final CameraCharacteristics characteristics = manager.getCameraCharacteristics(camId);
-//            final StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-//            final android.util.Size[] supportedSize = map.getOutputSizes(SurfaceTexture.class);
-//            final int texViewArea = textureViewWidth * textureViewHeight;
-//            final float texViewAspect = (float)textureViewWidth * (float)textureViewHeight;
-//
-//            final List nearestToFurthestSz = ArraysKt.sortedWith(supportedSize, ComparisonsKt.compareBy(
-//                    (Function1)(new Function1() {
-//                        public Object invoke(Object var1) {
-//                            return this.invoke((android.util.Size)var1);
-//                        }
-//
-//                        public final float invoke(android.util.Size it) {
-//                            float aspect;
-//                            if(it.getWidth() < it.getHeight()) {
-//                                aspect = (float)it.getWidth()/(float)it.getHeight();
-//                            }
-//                            else{
-//                                aspect = (float)it.getHeight()/(float)it.getWidth();
-//                            }
-//                            float result = aspect - texViewAspect;
-//                            return Math.abs(result);
-//                        }
-//                    }), (Function1)(new Function1() {
-//                        public Object invoke(Object var1) {
-//                            return this.invoke((android.util.Size)var1);
-//                        }
-//
-//                        public final int invoke(android.util.Size it) {
-//                            int result = texViewArea- it.getWidth() * it.getHeight();
-//                            return Math.abs(result);
-//                        }
-//                    })));
-//            Log.d("checkreturneror","return nearest" + nearestToFurthestSz );
-//            if(nearestToFurthestSz.isEmpty() == false){
-//                Size result = (Size) nearestToFurthestSz.get(0);
-//                return (Size)result;
-//            }
-//            else {
-//                final android.util.Size size = new android.util.Size(320, 200);
-//                return size;
-//            }
-//        } catch (CameraAccessException e) {
-//            e.printStackTrace();
-//        }
-//        final android.util.Size size = new android.util.Size(320, 200);
         final Size ActivityCamera = CameraConnectionFragment.getInputSize();
         return ActivityCamera;
     }
@@ -278,6 +237,15 @@ public class ForegroundService extends Service {
         }
     }
 
+    /** Callback for android.hardware.Camera API */
+    private Camera.PreviewCallback mpreview = new Camera.PreviewCallback() {
+        @Override
+        public void onPreviewFrame(byte[] data, Camera camera) {
+
+        }
+    };
+
+    /** Callback for Camera2 API */
     private ImageReader.OnImageAvailableListener imageListener = new ImageReader.OnImageAvailableListener() {
         @Override
         public void onImageAvailable(ImageReader reader) {
@@ -355,6 +323,20 @@ public class ForegroundService extends Service {
     private Matrix cropToFrameTransform;
     private MultiBoxTracker tracker;
 
+    @Override
+    public void onPreviewFrame(byte[] data, Camera camera) {
+        Log.d("jalanjalan","servicecoy");
+    }
+
+
+//    @Override
+//    public void onPreviewFrame(final byte[] bytes, final Camera camera) {
+//        Log.d("previewframe", "Palsu jalan 3");
+////        if (isProcessingFrame) {
+////
+////            return;
+////        }
+//    }
 
     private enum DetectorMode {
         TF_OD_API;
@@ -558,10 +540,60 @@ public class ForegroundService extends Service {
         }
     };
 
+    private SurfaceTexture availableSurfaceTexture = null;
 
 
+    private void startinitcamera(){
+    int index = LegacyCameraConnectionFragment.getcamertaID();
+    camera = Camera.open(index);
 
-
+    try {
+        Camera.Parameters parameters = camera.getParameters();
+        List<String> focusModes = parameters.getSupportedFocusModes();
+        if (focusModes != null
+                && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        }
+        List<Camera.Size> cameraSizes = parameters.getSupportedPreviewSizes();
+        Size[] sizes = new Size[cameraSizes.size()];
+        int i = 0;
+        for (Camera.Size size : cameraSizes) {
+            sizes[i++] = new Size(size.width, size.height);
+        }
+        int desiredSizeWidth = LegacyCameraConnectionFragment.getDesiredWidth();
+        int desiredSizeHeight = LegacyCameraConnectionFragment.getDesiredHeight();
+        Size previewSize =
+                CameraConnectionFragment.chooseOptimalSize(
+                        sizes, desiredSizeWidth,desiredSizeHeight);
+        parameters.setPreviewSize(previewSize.getWidth(), previewSize.getHeight());
+        camera.setDisplayOrientation(90);
+        camera.setParameters(parameters);
+        camera.setPreviewTexture(availableSurfaceTexture);
+    } catch (IOException exception) {
+        camera.release();
+    }
+//        camera.setPreviewCallbackWithBuffer(myImageListener);
+                camera.setPreviewCallbackWithBuffer(mpreview);
+        Camera.Size s = camera.getParameters().getPreviewSize();
+        camera.addCallbackBuffer(new byte[ImageUtils.getYUVByteSize(s.height, s.width)]);
+        textureView = LegacyCameraConnectionFragment.getMyLegacyTextureView();
+//        camera.open(index);
+        camera.startPreview();
+        Log.d("jalancoy","Service camera = " + textureView);
+    }
+//    private boolean mOneShot;
+//    private boolean mWithBuffer;
+//    private boolean mUsingPreviewAllocation;
+//    private native final void setHasPreviewCallback(boolean installed, boolean manualBuffer);
+//    public final void setPreviewCallbackWithBuffer(Camera.PreviewCallback cb) {
+//        myImageListener = cb;
+//        mOneShot = false;
+//        mWithBuffer = true;
+//        if (cb != null) {
+//            mUsingPreviewAllocation = false;
+//        }
+//        setHasPreviewCallback(cb != null, true);
+//    }
 
 
 
@@ -601,7 +633,12 @@ public class ForegroundService extends Service {
 
         startBackgroundThread();
         final Size ActivityCamera = CameraConnectionFragment.getInputSize();
-        initcam(ActivityCamera.getWidth(),ActivityCamera.getHeight());
+        if(ActivityCamera == null)
+        {
+            startinitcamera();
+        }
+        else
+            initcam(ActivityCamera.getWidth(),ActivityCamera.getHeight());
     }
     public static boolean getVibrate(){return isVibrate;}
     public static boolean getMute(){return isMute;}

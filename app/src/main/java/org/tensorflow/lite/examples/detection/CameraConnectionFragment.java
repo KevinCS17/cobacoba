@@ -207,6 +207,7 @@ public class CameraConnectionFragment extends Fragment {
     this.inputSize = inputSize;
   }
 
+
   /**
    * Given {@code choices} of {@code Size}s supported by a camera, chooses the smallest one whose
    * width and height are at least as large as the minimum of both, or an exact match if possible.
@@ -330,6 +331,7 @@ public class CameraConnectionFragment extends Fragment {
 
   public static Size myInputSizeWidth;
   public static Size getInputSize(){
+    Log.d("cameracoba2","jalan" + myInputSizeWidth);
     return myInputSizeWidth;
   }
 
@@ -390,6 +392,7 @@ public class CameraConnectionFragment extends Fragment {
       if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
         throw new RuntimeException("Time out waiting to lock camera opening.");
       }
+      Log.d("cameracoba2","jalan width" + width);
       manager.openCamera(cameraId, stateCallback, backgroundHandler);
     } catch (final CameraAccessException e) {
       LOGGER.e(e, "Exception!");

@@ -64,6 +64,8 @@ private static final String TF_OD_API_MODEL_FILE = "myModel_V3.tflite";
   public static float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
   private static final boolean MAINTAIN_ASPECT = false;
   private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
+//  private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 500);
+
   private static final boolean SAVE_PREVIEW_BITMAP = false;
   private static final float TEXT_SIZE_DIP = 10;
   OverlayView trackingOverlay;
@@ -158,7 +160,8 @@ private static final String TF_OD_API_MODEL_FILE = "myModel_V3.tflite";
     tracker.setFrameConfiguration(previewWidth, previewHeight, sensorOrientation);
   }
 
-
+  private int timercounet = 0;
+  private int totaltimer = 0;
   @Override
   protected void processImage() {
     ++timestamp;
@@ -194,6 +197,13 @@ private static final String TF_OD_API_MODEL_FILE = "myModel_V3.tflite";
             lastProcessingTimeMs = SystemClock.uptimeMillis() - startTime;
 
             MultiBoxTracker.setTimer(lastProcessingTimeMs);
+            timercounet = timercounet + 1;
+            totaltimer = totaltimer + (int)lastProcessingTimeMs;
+
+            if(timercounet == 200)
+            {
+              Toast.makeText(getApplicationContext(), "timer count " + timercounet + " Inference Time : " + totaltimer/timercounet, Toast.LENGTH_SHORT).show();
+            }
 
             cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
 
@@ -247,8 +257,16 @@ private static final String TF_OD_API_MODEL_FILE = "myModel_V3.tflite";
     return R.layout.tfe_od_camera_connection_fragment_tracking;
   }
 
+  public static int getayoutIDku(){
+    return R.layout.tfe_od_camera_connection_fragment_tracking;
+  }
+
   @Override
   protected Size getDesiredPreviewFrameSize() {
+    return DESIRED_PREVIEW_SIZE;
+  }
+
+  public static Size getDesiredPreviewSizeku(){
     return DESIRED_PREVIEW_SIZE;
   }
 
